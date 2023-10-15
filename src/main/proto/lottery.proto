@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.snowishyl.lanttery";
+option java_outer_classname = "LotteryProto";
+
+package proto;
+
+service Lottery {
+  rpc doDrawLottery (LotteryRequest) returns (LotteryReply) {}
+}
+
+message LotteryRequest {
+  string uId = 1;
+  int64 activityId = 2;
+  string msg = 3;
+}
+
+message LotteryReply {
+  string awardName = 1;
+  string awardId = 2;
+}
