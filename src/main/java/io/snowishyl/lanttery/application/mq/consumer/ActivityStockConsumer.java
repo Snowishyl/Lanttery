@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 /**
  * @program: quarkus-lanttery
- * @description: 活动扣减库存MQ消费者
+ * @description: ??????MQ???
  * @author: YxYL
  * @create: 2023-10-14 21:43
  **/
@@ -28,13 +28,13 @@ public class ActivityStockConsumer {
     @Incoming("activity-incoming")
     @Blocking
     public void duckActivityConsume(JsonObject jsonObject) {
-        logger.info("扣减信息：{}", jsonObject);
+        logger.info("扣减活动库存信息{}", jsonObject);
         ActivityStockQuote quote = jsonObject.getJsonObject("msg").mapTo(ActivityStockQuote.class);
         boolean effect = activityRepository.duckActivityStock(quote.getActivityId(), quote.getActivityStockSurplus());
         if (!effect) {
-            logger.error("扣减库存失败");
+            logger.error("扣减活动库存失败");
         }
-        logger.info("扣减完毕");
+        logger.info("扣减活动库存成功");
     }
 
 }

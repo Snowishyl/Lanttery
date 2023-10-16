@@ -6,6 +6,8 @@ import io.snowishyl.lanttery.domain.strategy.entity.vo.AwardRateVO;
 import io.snowishyl.lanttery.domain.strategy.service.algorithm.IDrawAlgorithm;
 import io.snowishyl.lanttery.domain.strategy.service.draw.BaseDraw;
 import io.snowishyl.lanttery.infrastructure.po.StrategyDetail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,6 +21,7 @@ import java.util.List;
  **/
 @ApplicationScoped
 public class DrawExecImpl extends BaseDraw {
+    private static final Logger logger = LoggerFactory.getLogger(DrawExecImpl.class);
     
     @Inject
     private RedisClient redisClient;
@@ -36,8 +39,9 @@ public class DrawExecImpl extends BaseDraw {
         }
         //如果成功的话就立马扣减库存
         boolean isSuccess = strategyDetailRepository.deductStock(strategyId, awardId);
-        StrategyDetail detail = getStrategyDetailByStrategyIdAndAwardId(strategyId,awardId);
+        StrategyDetail detail = getStrategyDetailByStrategyIdAndAwardId(strategyId, awardId);
 
-        return isSuccess ? new AwardRateVO(detail) : new AwardRateVO();
+        logger.info("抽到的奖品是：{}", detail);
+        return isSuccess ? new AwardRateVO(detail) : null;
     }
 }

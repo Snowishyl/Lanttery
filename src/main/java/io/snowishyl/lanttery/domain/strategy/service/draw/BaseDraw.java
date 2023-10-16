@@ -30,6 +30,9 @@ public abstract class BaseDraw extends DrawSupport implements IDrawExec {
 
         //从config里拿到抽奖算法执行抽奖
         AwardRateVO awardRateVO = this.drawAlgorithm(req.getActivityId(), strategyRich.getStrategyId(), drawAlgorithmMap.get(Constants.StrategyMode.SINGLE.getCode()), new ArrayList<>());
+        if (awardRateVO == null) {
+            return new DrawProcessRes(Constants.ResponseCode.LOSING_DRAW.getCode(), Constants.ResponseCode.LOSING_DRAW.getInfo(), null);
+        }
 
         //得到奖品id
         return new DrawProcessRes(awardRateVO);

@@ -38,11 +38,13 @@ public class IDrawSerProcessImpl implements IDrawSerProcess {
         if (!partakeRes.getCode().equals(Constants.ResponseCode.SUCCESS.getCode())) {
             return new DrawProcessRes(partakeRes.getCode(), partakeRes.getMsg(), null);
         }
-        //发送mq扣减活动库存
-        activityStockProducer.duckActivityStockSend(new ActivityStockQuote(req.getActivityId(), partakeRes.getActivityStock()));
 
         //执行抽奖算法得到奖品
         DrawProcessRes res = draw.doDrawAlgorithm(req);
+        if (res.getCode().equals(Constants.ResponseCode.SUCCESS.getCode())) {
+            //发送mq扣减活动库存
+            activityStockProducer.duckActivityStockSend(new ActivityStockQuote(req.getActivityId(), partakeRes.getActivityStock()));
+        }
 
         //返回结果
         return res;
