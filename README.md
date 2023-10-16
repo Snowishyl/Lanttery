@@ -1,7 +1,3 @@
-<img src="logo.png" style="zoom:150%;" align="left" />
-
----
-
 # quarkus-lanttery
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
